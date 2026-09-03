@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg"/>
+  <link rel="icon" type="image/x-icon" href="favicon/favicon.ico"/>
+  <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png"/>
+  <title>LCS 165P  COORDINATE CONVERTER — LCS 165P → NTM → UTM</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="landing.css"/>
+</head>
+<body class="landing">
+
+<!-- ===== HEADER ===== -->
+<header class="landing-header">
+  <a href="index.html" class="header-logo" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
+    <div class="logo-icon">
+      <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
+        <circle cx="8" cy="8" r="2.5" fill="white"/>
+        <circle cx="8" cy="8" r="6" stroke="white" stroke-width="1.2" stroke-dasharray="2 2"/>
+        <line x1="8" y1="1" x2="8" y2="4.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="8" y1="11.5" x2="8" y2="15" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="1" y1="8" x2="4.5" y2="8" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="11.5" y1="8" x2="15" y2="8" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="header-title">LCS 165P COORDINATE CONVERTER</span>
+  </a>
+
+  <nav class="landing-nav-links">
+    <a href="#features">Features</a>
+    <a href="#how-it-works">How It Works</a>
+    <a href="about.html">About</a>
+  </nav>
+
+  <div style="display:flex; align-items:center; gap:10px;">
+    <button class="theme-toggle" id="themeToggle" title="Toggle light/dark mode">
+      <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <a href="login.html" class="btn-login">Login</a>
+    <a href="signup.html" class="btn-launch">
+      Sign Up
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero landing-section">
+
+  <h1>Convert Lagos Cadastral<br/>Coordinates to <span class="grad">Modern Standards</span></h1>
+
+  <p class="lead">
+    A web-based tool that transforms Lagos Cadastral Survey (LCS 165P ) coordinates into
+    Nigeria Transverse Mercator (NTM) and Universal Transverse Mercator (UTM) systems —
+    instantly, accurately, and visually on an interactive map.
+  </p>
+
+  <div class="hero-ctas">
+    <a href="app.html" class="btn-hero-primary">
+      Get Started
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a href="#how-it-works" class="btn-hero-secondary">
+      See How It Works
+    </a>
+  </div>
+
+  <div class="pipeline-strip">
+    <div class="pipeline-chip">LCS 165P → NTM</div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-chip">NTM → UTM</div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-chip">LCS 165P → UTM</div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-chip">Map</div>
+  </div>
+</section>
+
+<!-- ===== FEATURES ===== -->
+<section class="landing-section" id="features">
+  <div class="section-header">
+    <div class="section-tag">Capabilities</div>
+    <h2>Everything you need in one tool</h2>
+    <p>Independent conversion modes, batch processing, and live map visualization — built for Lagos Cadastral Survey data.</p>
+  </div>
+
+  <div class="feature-grid">
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3>LCS 165P → NTM</h3>
+      <p>Convert Lagos Cadastral Surveys (LCS 165P) offsets, in feet, straight to Nigeria Transverse Mercator coordinates — no UTM zone required.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3>NTM → UTM</h3>
+      <p>Transform NTM belt coordinates directly into UTM, choosing between Minna datum or WGS84 — independent of any LCS 165P input.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3>LCS 165P → UTM</h3>
+      <p>Transform LCS 165P directly into UTM — independent of any NTM input.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="white" stroke-width="2"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <h3>Live Map Plotting</h3>
+      <p>Every converted point — single or batch — is plotted instantly on an interactive Leaflet map so you can visually verify your survey data.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 15V3m0 12-4-4m4 4 4-4M2 17l.6 2.5A2 2 0 0 0 4.6 21h14.8a2 2 0 0 0 1.9-1.5L22 17" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3>Batch CSV Processing</h3>
+      <p>Upload hundreds of coordinate pairs at once. Get converted NTM, UTM, and lat/lon values back in a downloadable CSV file.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="white" stroke-width="2"/><path d="M3 9h18M9 21V9" stroke="white" stroke-width="2"/></svg>
+      </div>
+      <h3>Unit Converter</h3>
+      <p>Quick conversions between feet, metres, acres, hectares, and square yards — common survey units, always within reach.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="landing-section" id="how-it-works">
+  <div class="section-header">
+    <div class="section-tag">Process</div>
+    <h2>How the conversion works</h2>
+    <p>From a historical Lagos survey offset to a pin on a modern map — in three simple steps.</p>
+  </div>
+
+  <div class="steps-row">
+    <div class="step-card">
+      <div class="step-number">01</div>
+      <h4>Enter LCS 165P Coordinates</h4>
+      <p>Input your LCS 165P East/West and North/South offsets in feet, exactly as recorded in the Lagos Cadastral Survey.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">02</div>
+      <h4>NTM Conversion</h4>
+      <p>The app converts your offsets into NTM belt coordinates, in metres, using a proprietary tie-point reference.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">03</div>
+      <h4>UTM Transformation</h4>
+      <p>NTM coordinates are projected into UTM Zone 31N/32N/33N, in either Minna datum or WGS84.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">04</div>
+      <h4>Visualize on Map</h4>
+      <p>The final WGS84 latitude/longitude is plotted instantly as a pin on the interactive map.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== REFERENCE ===== -->
+<section class="landing-section narrow" id="reference">
+  <div class="section-header">
+    <div class="section-tag">Reference</div>
+    <h2>Belts, Zones &amp; Datums</h2>
+    <p>Quick reference for the coordinate systems used throughout this tool.</p>
+  </div>
+
+  <div class="about-grid">
+    <div class="info-card">
+      <h3>NTM Belts (Minna)</h3>
+      <div class="info-table-row"><span>West Belt</span></div>
+      <div class="info-table-row"><span>Mid Belt</span></div>
+      <div class="info-table-row"><span>East Belt</span></div>
+    </div>
+    <div class="info-card">
+      <h3>UTM Zones (Minna, WGS 84)</h3>
+      <div class="info-table-row"><span>Zone 31N</span></div>
+      <div class="info-table-row"><span>Zone 32N</span></div>
+      <div class="info-table-row"><span>Zone 33N</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="landing-section narrow">
+  <div class="cta-banner">
+    <h2>Ready to convert your survey data?</h2>
+    <p>Sign in or create a free account to start converting your survey data.</p>
+    <a href="app.html" class="btn-hero-primary">
+      Get Started
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="landing-footer">
+  LCS 165P COORDINATE CONVERTER — B.Sc. Final Year Project, Department of Surveying &amp; Geoinformatics, University of Lagos
+  <div style="margin-top:8px;"><a href="about.html" style="color:var(--accent); text-decoration:none;">About this project →</a></div>
+</footer>
+
+<script>
+  const savedTheme = localStorage.getItem("cc-theme");
+  if (savedTheme === "light") document.body.classList.add("light");
+  document.getElementById("themeToggle").addEventListener("click", () => {
+    document.body.classList.toggle("light");
+    localStorage.setItem("cc-theme", document.body.classList.contains("light") ? "light" : "dark");
+  });
+</script>
+
+</body>
+</html>

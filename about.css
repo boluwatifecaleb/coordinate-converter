@@ -1,0 +1,189 @@
+/* =========================================================
+   About Page Styles
+   Extends landing.css — reuses the same theme variables
+========================================================= */
+
+.about-hero {
+  padding-top: 150px;
+  padding-bottom: 50px;
+  text-align: center;
+}
+
+.about-hero .section-tag { justify-content: center; display: flex; }
+
+.about-hero h1 {
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.about-hero h1 .grad {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.about-hero p {
+  font-size: 16px;
+  color: var(--text-2);
+  max-width: 640px;
+  margin: 0 auto;
+  line-height: 1.65;
+  text-align: justify;
+}
+
+/* ---- Overview block ---- */
+.overview-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  backdrop-filter: blur(16px);
+  margin-bottom: 16px;
+}
+
+.overview-block p {
+  font-size: 15px;
+  color: var(--text-2);
+  line-height: 1.75;
+  margin-bottom: 14px;
+  text-align: justify;
+}
+
+.overview-block p:last-child { margin-bottom: 0; }
+
+/* ---- Team Cards ---- */
+.team-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.team-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  backdrop-filter: blur(16px);
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.team-card:hover {
+  border-color: var(--border-hov);
+  transform: translateY(-2px);
+}
+
+.team-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 17px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 16px var(--accent-glow);
+}
+
+.team-card h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.team-role {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.team-dept {
+  font-size: 13px;
+  color: var(--text-3);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.team-bio {
+  font-size: 13.5px;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 18px;
+  text-align: justify;
+}
+
+.contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.contact-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 7px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.contact-chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ---- Stats ---- */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.stat-card {
+  text-align: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 12px;
+  backdrop-filter: blur(16px);
+}
+
+.stat-num {
+  font-size: 30px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 760px) {
+  .team-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .about-hero h1 { font-size: 30px; }
+}

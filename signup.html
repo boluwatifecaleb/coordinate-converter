@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg"/>
+  <link rel="icon" type="image/x-icon" href="favicon/favicon.ico"/>
+  <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png"/>
+  <title>Create Account — Lagos Coordinate Converter</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="auth.css"/>
+</head>
+<body class="auth-page">
+
+<button class="theme-toggle auth-theme-toggle" id="themeToggle" title="Toggle light/dark mode">
+  <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+</button>
+
+<button class="theme-toggle auth-back-toggle" id="backBtn" title="Back to home">
+  <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 4 3 8l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<div class="auth-shell">
+  <a href="index.html" class="auth-logo-row">
+    <div class="logo-icon">
+      <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
+        <circle cx="8" cy="8" r="2.5" fill="white"/>
+        <circle cx="8" cy="8" r="6" stroke="white" stroke-width="1.2" stroke-dasharray="2 2"/>
+        <line x1="8" y1="1" x2="8" y2="4.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="8" y1="11.5" x2="8" y2="15" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="1" y1="8" x2="4.5" y2="8" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="11.5" y1="8" x2="15" y2="8" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span>Lagos Coordinate Converter</span>
+  </a>
+
+  <div class="auth-card">
+    <h1>Create your account</h1>
+    <p class="sub">Sign up to start converting LCS, NTM &amp; UTM coordinates.</p>
+
+    <div class="auth-error" id="authError"></div>
+
+    <form id="signupForm">
+      <div class="auth-form-group">
+        <label>Full Name</label>
+        <input type="text" id="fullName" placeholder="e.g. Soremi Boluwatife" required autocomplete="name"/>
+      </div>
+      <div class="auth-form-group">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="you@example.com" required autocomplete="email"/>
+      </div>
+      <div class="auth-form-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="At least 6 characters" required minlength="6" autocomplete="new-password"/>
+      </div>
+      <div class="auth-form-group">
+        <label>Confirm Password</label>
+        <input type="password" id="confirmPassword" placeholder="Re-enter password" required minlength="6" autocomplete="new-password"/>
+      </div>
+      <button type="submit" class="auth-submit" id="submitBtn">Create Account</button>
+    </form>
+
+    <div class="auth-footer-link">
+      Already have an account? <a href="login.html">Sign in</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth.js"></script>
+<script>
+  const themeBtn = document.getElementById("themeToggle");
+  themeBtn.addEventListener("click", () => {
+    document.body.classList.toggle("light");
+    localStorage.setItem("cc-theme", document.body.classList.contains("light") ? "light" : "dark");
+  });
+
+  document.getElementById("backBtn").addEventListener("click", () => {
+    window.location.href = "index.html";
+  });
+
+  document.getElementById("backBtn").addEventListener("click", () => {
+    window.location.href = "index.html";
+  });
+
+  const errEl = document.getElementById("authError");
+  const form  = document.getElementById("signupForm");
+  const btn   = document.getElementById("submitBtn");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    clearAuthError(errEl);
+
+    const fullName = document.getElementById("fullName").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    if (password !== confirmPassword) {
+      setAuthError(errEl, "Passwords do not match.");
+      return;
+    }
+    if (password.length < 6) {
+      setAuthError(errEl, "Password must be at least 6 characters.");
+      return;
+    }
+
+    setBtnLoading(btn, true, "Creating account...", "Create Account");
+
+    const { data, error } = await supabaseClient.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { full_name: fullName },
+        emailRedirectTo: window.location.origin + window.location.pathname.replace("signup.html", "login.html")
+      }
+    });
+
+    setBtnLoading(btn, false, "Creating account...", "Create Account");
+
+    if (error) {
+      if (error.message.toLowerCase().includes("already registered") || error.message.toLowerCase().includes("already exists")) {
+        setAuthError(errEl, "An account with this email already exists. Try signing in instead.");
+      } else {
+        setAuthError(errEl, error.message);
+      }
+      return;
+    }
+
+    window.location.href = "login.html?msg=check-email";
+  });
+</script>
+
+</body>
+</html>

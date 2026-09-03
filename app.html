@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg"/>
+  <link rel="icon" type="image/x-icon" href="favicon/favicon.ico"/>
+  <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png"/>
+  <title>LCS 165P COORDINATE CONVERTER — LCS 165P → NTM → UTM</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="auth.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+<!-- ===== AUTH CHECK SPLASH ===== -->
+<div class="auth-checking" id="authChecking">
+  <div class="spinner"></div>
+  <p>Checking your session...</p>
+</div>
+
+<!-- ===== HEADER ===== -->
+<header class="site-header" id="siteHeader" style="display:none;">
+  <div class="header-left">
+    <button class="back-btn" id="backBtn" title="Back to home">
+      <svg width="17" height="17" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 4 3 8l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <a href="index.html" class="header-logo" style="text-decoration:none;">
+      <div class="logo-icon">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="2.5" fill="white"/>
+          <circle cx="8" cy="8" r="6" stroke="white" stroke-width="1.2" stroke-dasharray="2 2"/>
+          <line x1="8" y1="1" x2="8" y2="4.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="8" y1="11.5" x2="8" y2="15" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="1" y1="8" x2="4.5" y2="8" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="11.5" y1="8" x2="15" y2="8" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="header-title">LCS 165P COORDINATE CONVERTER</span>
+    </a>
+    <div class="header-pill">
+      LCS 165P <span class="header-pill-dot">·</span> NTM <span class="header-pill-dot">·</span> UTM
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="user-badge" id="userBadge" style="display:none;">
+      <div class="user-avatar" id="userAvatar">U</div>
+      <span id="userEmail"></span>
+      <button class="logout-btn" id="logoutBtn" title="Sign out">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <button class="theme-toggle" id="themeToggle" title="Toggle light/dark mode">
+      <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ===== MAIN LAYOUT ===== -->
+<div class="app-layout" id="appLayout" style="display:none;">
+
+  <!-- ===== SIDE PANEL ===== -->
+  <aside class="side-panel">
+
+    <nav class="tab-nav">
+      <button class="tab-btn active" data-tab="lcs-ntm">LCS → NTM</button>
+      <button class="tab-btn" data-tab="ntm-utm">NTM → UTM</button>
+      <button class="tab-btn" data-tab="full">Full Chain</button>
+      <button class="tab-btn" data-tab="units">Units</button>
+    </nav>
+
+    <!-- ── LCS → NTM ── -->
+    <div class="tab-pane active" id="tab-lcs-ntm">
+      <div class="pane-header">
+        <div class="step-tag">Step 1 </div>
+        <h2>LCS 165P → NTM</h2>
+        <p>Convert Lagos Cadastral Surveys (LCS 165P) coordinates (feet) to NTM (metres).</p>
+      </div>
+
+      <!-- X Coordinate -->
+      <div class="coord-label">X Coordinate</div>
+      <div class="form-group">
+        <label>LCS East (+) / West (−) <span class="unit-tag">ft</span></label>
+        <input id="n1-east" type="number" placeholder="e.g. 10603.15 East is +, West is −" step="any"/>
+      </div>
+
+      <!-- Y Coordinate -->
+      <div class="coord-label">Y Coordinate</div>
+      <div class="form-group">
+        <label>LCS North (+) / South (−) <span class="unit-tag">ft</span></label>
+        <input id="n1-north" type="number" placeholder="e.g. 24386.87  North is +, South is −" step="any"/>
+      </div>
+
+      <div class="form-group">
+        <label>NTM Belt</label>
+        <select id="n1-belt">
+          <option value="west">West Belt</option>
+          <option value="mid">Mid Belt</option>
+          <option value="east">East Belt</option>
+        </select>
+      </div>
+
+      <div class="actions-row">
+        <button class="btn-primary" id="btn-lcs-ntm">
+          Convert
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="btn-secondary" id="btn-clear-lcs-ntm">Clear Output</button>
+      </div>
+
+      <div id="res-lcs-ntm" class="result-panel">
+        <div class="res-placeholder">Enter coordinates above and click Convert to see NTM output here.</div>
+      </div>
+
+      <!-- Batch sub-section -->
+      <div class="batch-divider"><span>Batch Conversion</span></div>
+      <p class="batch-sub-desc">Upload a CSV or XLSX file with columns <code>LCS East(+)/West(−) <span class="unit-tag">ft</span></label></code>, <code>LCS North(+)/South(−)<span class="unit-tag">ft</span></label></code>, and optionally <code>id</code> to convert many LCS points to NTM at once.</p>
+
+      <div class="file-picker-row">
+        <label class="file-picker-btn" for="file-lcs-ntm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 15V3m0 12-4-4m4 4 4-4M2 17l.6 2.5A2 2 0 0 0 4.6 21h14.8a2 2 0 0 0 1.9-1.5L22 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Choose CSV / XLSX File
+        </label>
+        <input id="file-lcs-ntm" type="file" accept=".csv,.xlsx,.xls" class="file-picker-input"/>
+        <span class="file-picker-name" id="fname-lcs-ntm">No file selected</span>
+      </div>
+
+      <div class="actions-row">
+        <button class="btn-primary" id="batchBtn-lcs-ntm">Process Batch</button>
+        <button class="btn-secondary" id="downloadBtn-lcs-ntm" disabled>Download Results</button>
+        <button class="btn-secondary" id="clearBtn-lcs-ntm">Clear Output</button>
+      </div>
+
+      <div id="batchStatus-lcs-ntm" class="result-panel">
+        <div class="res-placeholder">Upload a file and click Process Batch to see results here.</div>
+      </div>
+    </div>
+
+    <!-- ── NTM → UTM ── -->
+    <div class="tab-pane" id="tab-ntm-utm">
+      <div class="pane-header">
+        <div class="step-tag">Step 2 </div>
+        <h2>NTM → UTM</h2>
+        <p>Convert NTM coordinates directly to UTM — Minna datum or WGS84.</p>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>NTM Easting <span class="unit-tag">mE</span></label>
+          <input id="n2-east" type="number" placeholder="e.g. 109745.32" step="any"/>
+        </div>
+        <div class="form-group">
+          <label>NTM Northing <span class="unit-tag">mN</span></label>
+          <input id="n2-north" type="number" placeholder="e.g. 270630.14" step="any"/>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>NTM Belt</label>
+          <select id="n2-belt">
+            <option value="west">West Belt</option>
+            <option value="mid">Mid Belt</option>
+            <option value="east">East Belt</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>UTM Zone</label>
+          <select id="n2-zone">
+            <option value="31">Zone 31N</option>
+            <option value="32">Zone 32N</option>
+            <option value="33">Zone 33N</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Output Datum</label>
+        <div class="datum-toggle">
+          <button class="datum-btn active" id="n2-dm" data-val="minna">Minna</button>
+          <button class="datum-btn" id="n2-dw" data-val="wgs84">WGS84</button>
+        </div>
+        <input type="hidden" id="n2-datum" value="minna"/>
+      </div>
+
+      <div class="actions-row">
+        <button class="btn-primary" id="btn-ntm-utm">
+          Convert
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="btn-secondary" id="btn-clear-ntm-utm">Clear Output</button>
+      </div>
+      <div id="res-ntm-utm" class="result-panel">
+        <div class="res-placeholder">Enter NTM coordinates above and click Convert to see UTM output here.</div>
+      </div>
+
+      <!-- Batch sub-section -->
+      <div class="batch-divider"><span>Batch Conversion</span></div>
+      <p class="batch-sub-desc">Upload a CSV or XLSX file with columns <code>LCS East(+)/West(−) <span class="unit-tag">ft</span></label></code>, <code>LCS North(+)/South(−)<span class="unit-tag">ft</span></label></code>, and optionally <code>id</code> to convert many NTM points to UTM at once.</p>
+
+      <div class="file-picker-row">
+        <label class="file-picker-btn" for="file-ntm-utm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 15V3m0 12-4-4m4 4 4-4M2 17l.6 2.5A2 2 0 0 0 4.6 21h14.8a2 2 0 0 0 1.9-1.5L22 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Choose CSV / XLSX File
+        </label>
+        <input id="file-ntm-utm" type="file" accept=".csv,.xlsx,.xls" class="file-picker-input"/>
+        <span class="file-picker-name" id="fname-ntm-utm">No file selected</span>
+      </div>
+
+      <div class="actions-row">
+        <button class="btn-primary" id="batchBtn-ntm-utm">Process Batch</button>
+        <button class="btn-secondary" id="downloadBtn-ntm-utm" disabled>Download Results</button>
+        <button class="btn-secondary" id="clearBtn-ntm-utm">Clear Output</button>
+      </div>
+
+      <div id="batchStatus-ntm-utm" class="result-panel">
+        <div class="res-placeholder">Upload a file and click Process Batch to see results here.</div>
+      </div>
+    </div>
+
+    <!-- ── Full Chain ── -->
+    <div class="tab-pane" id="tab-full">
+      <div class="pane-header">
+        <div class="step-tag">Full Pipeline</div>
+        <h2>LCS 165P → UTM</h2>
+        <p>Direct conversion — raw LCS feet straight to UTM, with map plotting.</p>
+      </div>
+
+      <div class="form-row coord-row">
+        <div class="form-group">
+          <div class="coord-label-inline">X Coordinate</div>
+          <label class="coord-axis-label">East (+) / West (−) <span class="unit-tag">ft</span></label>
+          <input id="f-east" type="number" placeholder="East is +, West is −" step="any"/>
+        </div>
+        <div class="form-group">
+          <div class="coord-label-inline">Y Coordinate</div>
+          <label class="coord-axis-label">North (+) / South (−) <span class="unit-tag">ft</span></label>
+          <input id="f-south" type="number" placeholder="North is +, South is −" step="any"/>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>NTM Belt</label>
+          <select id="f-belt">
+            <option value="west">West Belt</option>
+            <option value="mid">Mid Belt</option>
+            <option value="east">East Belt</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>UTM Zone</label>
+          <select id="f-zone">
+            <option value="31">31N</option>
+            <option value="32">32N</option>
+            <option value="33">33N</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Output Datum</label>
+        <div class="datum-toggle">
+          <button class="datum-btn active" id="f-dm" data-val="minna">Minna</button>
+          <button class="datum-btn" id="f-dw" data-val="wgs84">WGS84</button>
+        </div>
+        <input type="hidden" id="f-datum" value="minna"/>
+      </div>
+
+      <div class="actions-row">
+        <button class="btn-primary" id="btn-full">Convert &amp; Plot</button>
+        <button class="btn-secondary" id="btn-clear-full">Clear Map</button>
+        <button class="btn-secondary" id="btn-clear-full-output">Clear Output</button>
+      </div>
+      <div id="res-full" class="result-panel">
+        <div class="res-placeholder">Enter LCS coordinates above and click Convert &amp; Plot to see UTM output here.</div>
+      </div>
+
+      <!-- Batch sub-section -->
+      <div class="batch-divider"><span>Batch Conversion</span></div>
+      <p class="batch-sub-desc">Upload a CSV or XLSX file with columns <code>LCS East(+)/West(−) <span class="unit-tag">ft</span></label></code>, <code>LCS North(+)/South(−)<span class="unit-tag">ft</span></label></code>, and optionally <code>id</code> to convert many LCS points straight to UTM at once.</p>
+
+      <div class="file-picker-row">
+        <label class="file-picker-btn" for="file-full">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 15V3m0 12-4-4m4 4 4-4M2 17l.6 2.5A2 2 0 0 0 4.6 21h14.8a2 2 0 0 0 1.9-1.5L22 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Choose CSV / XLSX File
+        </label>
+        <input id="file-full" type="file" accept=".csv,.xlsx,.xls" class="file-picker-input"/>
+        <span class="file-picker-name" id="fname-full">No file selected</span>
+      </div>
+
+      <div class="actions-row">
+        <button class="btn-primary" id="batchBtn-full">Process Batch</button>
+        <button class="btn-secondary" id="downloadBtn-full" disabled>Download Results</button>
+        <button class="btn-secondary" id="clearBtn-full">Clear Output</button>
+      </div>
+
+      <div id="batchStatus-full" class="result-panel">
+        <div class="res-placeholder">Upload a file and click Process Batch to see results here.</div>
+      </div>
+    </div>
+
+    <!-- ── Units ── -->
+    <div class="tab-pane" id="tab-units">
+      <div class="pane-header">
+        <div class="step-tag">Utility</div>
+        <h2>Unit Converter</h2>
+        <p>Quick conversions for common survey units.</p>
+      </div>
+
+      <div class="form-group">
+        <label>Conversion Type</label>
+        <select id="unitType">
+          <option value="m_to_ft">Metres → Feet</option>
+          <option value="ft_to_m">Feet → Metres</option>
+          <option value="acre_to_m2">Acre → m²</option>
+          <option value="m2_to_acre">m² → Acre</option>
+          <option value="hectare_to_acre">Hectare → Acres</option>
+          <option value="acre_to_hectare">Acres → Hectare</option>
+          <option value="yd2_to_m2">Square Yard → m²</option>
+          <option value="m2_to_yd2">m² → Square Yard</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Input</label>
+          <input id="unitInput" type="number" step="any" placeholder="Value..."/>
+        </div>
+        <div class="form-group">
+          <label>Result</label>
+          <input id="unitOutput" type="text" readonly/>
+        </div>
+      </div>
+
+      <div class="actions-row">
+        <button class="btn-primary" id="unitConvertBtn">Convert</button>
+        <button class="btn-secondary" id="unitClearBtn">Clear Output</button>
+      </div>
+
+      <div class="constants-table">
+        <div class="ct-head">Survey Constants</div>
+        <div class="ct-row"><span>1 foot</span><span>0.304797 m</span></div>
+        <div class="ct-row"><span>1 metre</span><span>3.280840 ft</span></div>
+        <div class="ct-row"><span>1 acre</span><span>4046.856 m²</span></div>
+        <div class="ct-row"><span>1 hectare</span><span>2.471054 acres</span></div>
+        <div class="ct-row"><span>1 sq yard</span><span>0.836127 m²</span></div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ===== MAP ===== -->
+  <main class="map-container">
+    <div id="map"></div>
+
+    <div class="map-controls">
+      <button class="map-ctrl-btn" id="myLocationBtn" title="My Location">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <button class="map-ctrl-btn" id="lagosBtn" title="Lagos">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
+      </button>
+      <button class="map-ctrl-btn" id="clearMapBtn" title="Clear markers">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <div class="map-legend">
+      <div class="legend-row"><span class="dot dot-blue"></span>Your Location</div>
+      <div class="legend-row"><span class="dot dot-orange"></span>Converted Point</div>
+    </div>
+
+    <div class="point-counter" id="pointCounter" style="display:none">
+      <span id="pointCount">0</span> point(s) plotted
+    </div>
+  </main>
+
+</div><!-- .app-layout -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth.js"></script>
+<script>
+  (async () => {
+    const session = await requireAuth();
+    if (!session) return; // requireAuth already redirected to login.html
+
+    // Populate user badge — show first name with Welcome
+    const user = session.user;
+    const fullName = user.user_metadata?.full_name || "";
+    const firstName = fullName.trim().split(" ")[0] || user.email.split("@")[0];
+    const initial = firstName.charAt(0).toUpperCase();
+    document.getElementById("userAvatar").textContent = initial;
+    document.getElementById("userEmail").textContent = "Welcome, " + firstName;
+    document.getElementById("userBadge").style.display = "flex";
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await supabaseClient.auth.signOut();
+      window.location.href = "login.html";
+    });
+
+    document.getElementById("backBtn").addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+
+    // Reveal the app, hide the checking splash
+    document.getElementById("authChecking").style.display = "none";
+    document.getElementById("siteHeader").style.display = "flex";
+    document.getElementById("appLayout").style.display = "grid";
+  })();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/proj4@2.9.2/dist/proj4.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
