@@ -292,6 +292,7 @@ body.light .icon-moon { display: none; }
 .app-layout {
   display: grid;
   grid-template-columns: var(--panel-w) 1fr;
+  grid-template-rows: 1fr;
   height: 100vh;
   padding-top: var(--header-h);
   overflow: hidden;
